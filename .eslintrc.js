@@ -30,7 +30,8 @@ module.exports = {
     "vue/multiline-html-element-content-newline": "off", // 在多行元素的内容之前和之后需要换行符
 		"vue/singleline-html-element-content-newline": "off", // 在单行元素的内容之前和之后需要换行符
     'no-use-before-define': 'off',
-    
+    'vue/multi-word-component-names': "off",
+
     '@typescript-eslint/ban-ts-ignore': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',

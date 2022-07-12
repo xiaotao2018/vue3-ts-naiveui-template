@@ -22,7 +22,7 @@
   </div>
 </template>
 
-<script setup lang="ts" name="views_name">
+<script setup lang="ts" name="login_page">
 	import { FormInst } from 'naive-ui'
 	const formRef = ref<FormInst | null>(null)
 	var formValue = ref({
