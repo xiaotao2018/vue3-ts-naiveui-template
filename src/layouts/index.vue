@@ -1,7 +1,7 @@
 <!--
  * @Author: xiaotao2018
  * @Date: 2022-08-18 16:54:24
- * @LastEditTime: 2023-01-17 09:40:59
+ * @LastEditTime: 2023-01-17 11:23:24
 -->
 <template>
   <div class="app-layouts">
@@ -9,7 +9,7 @@
     <n-config-provider :theme="theme">
         <n-global-style />
         <div class="app-hearder">
-          <img class="app-logo" src="@\assets\logo.png">
+          <router-link to="/login"><img class="app-logo" src="@\assets\logo.png"></router-link>
           <h1>VUE 3</h1>
           <div class="flex-1 flex items-center justify-end">
             <!-- <n-button @click="changeMyTheme('dark')">深色</n-button>
@@ -20,7 +20,7 @@
               <template #unchecked>深色主题</template>
             </n-switch>
   
-            <span class="ml-4">管理員，{{helloText}}好</span>
+            <span class="ml-4">{{mainStore.name}}，{{helloText}}好</span>
           </div>
         </div>
 
@@ -61,6 +61,7 @@
 </template>
 
 <script setup lang="ts">
+import { useMainStore } from '@/store'
 import { NIcon } from 'naive-ui'
 import { RouterLink, useRouter,RouteLocationRaw } from 'vue-router'
 import { darkTheme, useOsTheme } from 'naive-ui'
@@ -72,6 +73,7 @@ import { darkTheme, useOsTheme } from 'naive-ui'
 //   return () => h(NIcon, props, { default: () => h(Icon, { icon }) })
 // }
 const router = useRouter()
+const mainStore = useMainStore()
 
 interface ChildObj {
   label: any,
@@ -166,7 +168,7 @@ function updateMenuKey (key: String, item: {key: RouteLocationRaw}) { // 点击�
   const nowRouter = router.currentRoute.value.fullPath
   console.log('updateMenuKey', key , item, router, nowRouter)
   if(nowRouter === key) {
-    console.log('nowRouter === key', key, nowRouter)
+    console.log('nowRouter === key', key, nowRouter, item)
     router.push('/redirect' + item.key)
   }else{
     router.push(item.key)
@@ -186,6 +188,10 @@ function changeMyTheme (themeBoolean: boolean) { // 更改主题色
   localStorage.setItem('vue3TestTheme',themeStr)
 }
 
+  onBeforeMount(() => {
+    console.log(mainStore)
+    console.log('---onBeforeMount---')
+  })
 
   onMounted(() => {
     const themeLocal = localStorage.getItem('vue3TestTheme')
