@@ -4,17 +4,30 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    IconCustomLogo: typeof import('~icons/custom/logo')['default']
     NaiveProvider: typeof import('./../components/NaiveProvider.vue')['default']
     NButton: typeof import('naive-ui')['NButton']
+    NCard: typeof import('naive-ui')['NCard']
+    NCarousel: typeof import('naive-ui')['NCarousel']
+    NCollapse: typeof import('naive-ui')['NCollapse']
+    NCollapseItem: typeof import('naive-ui')['NCollapseItem']
+    NConfigProvider: typeof import('naive-ui')['NConfigProvider']
+    NDescriptions: typeof import('naive-ui')['NDescriptions']
+    NDescriptionsItem: typeof import('naive-ui')['NDescriptionsItem']
     NDialogProvider: typeof import('naive-ui')['NDialogProvider']
-    NForm: typeof import('naive-ui')['NForm']
-    NFormItem: typeof import('naive-ui')['NFormItem']
-    NIcon: typeof import('naive-ui')['NIcon']
+    NGlobalStyle: typeof import('naive-ui')['NGlobalStyle']
+    NImage: typeof import('naive-ui')['NImage']
+    NImageGroup: typeof import('naive-ui')['NImageGroup']
     NInput: typeof import('naive-ui')['NInput']
+    NLayout: typeof import('naive-ui')['NLayout']
+    NLayoutSider: typeof import('naive-ui')['NLayoutSider']
     NLoadingBarProvider: typeof import('naive-ui')['NLoadingBarProvider']
+    NMenu: typeof import('naive-ui')['NMenu']
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
     NNotificationProvider: typeof import('naive-ui')['NNotificationProvider']
+    NResult: typeof import('naive-ui')['NResult']
+    NSpace: typeof import('naive-ui')['NSpace']
+    NSwitch: typeof import('naive-ui')['NSwitch']
+    NText: typeof import('naive-ui')['NText']
   }
 }
 

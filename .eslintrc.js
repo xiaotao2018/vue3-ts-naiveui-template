@@ -7,13 +7,11 @@ module.exports = {
     'vue/setup-compiler-macros': true,
   },
   parser: 'vue-eslint-parser',
-  extends: [
-    'eslint:recommended',
+  extends: ['eslint:recommended',
     'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
-    'prettier',
-  ],
+    'prettier',],
   parserOptions: {
     ecmaVersion: 12,
     parser: '@typescript-eslint/parser',
@@ -100,7 +98,7 @@ module.exports = {
     // 强制在 JSX 属性中一致地使用双引号或单引号
     // 'jsx-quotes': 'warn',
     // 强制可嵌套的块的最大深度4
-    'max-depth': 'warn',
+    'max-depth': 'off',
     // 强制最大行数 300
     // "max-lines": ["warn", { "max": 1200 }],
     // 强制函数最大代码行数 50
@@ -110,7 +108,7 @@ module.exports = {
     // 强制回调函数最大嵌套深度
     'max-nested-callbacks': ['warn', 3],
     // 强制函数定义中最多允许的参数数量
-    'max-params': ['warn', 3],
+    'max-params': ['warn', 5],
     // 强制每一行中所允许的最大语句数量
     'max-statements-per-line': ['warn', { max: 1 }],
     // 要求方法链中每个调用都有一个换行符
@@ -147,6 +145,21 @@ module.exports = {
     'no-fallthrough': 'warn',
     'no-extra-boolean-cast': 'warn',
     'no-case-declarations': 'warn',
-    'no-async-promise-executor': 'warn'
+    'no-async-promise-executor': 'warn',
+
+    // my
+    'no-console': 'off', // 禁止使用console
+    'vue/no-v-html': 'off', // 禁止使用v-html
+    'no-plusplus': 'off', // 禁止一元运算符++和-
+    /// 'prefer-const': 'off', // 要求const声明在声明后从不重新分配的变量
+    // 'no-var': 'off', // 要求let或const代替var
+    'vars-on-top': 'off', // 要求var将声明放在其包含范围的顶部
+    'function-paren-newline': 'off',
+    'function-call-argument-newline': 'off',
+    'object-property-newline': 'off',
+    // 'max-statements-per-line': ['warn', { 'max': 6 }],
+    'array-bracket-newline': ['error', 'never'],
+    'no-nested-ternary': 'off' // 禁止嵌套三元表达式
+    // 'no-inline-comments': 'off' // 禁止行内备注
   },
 }
