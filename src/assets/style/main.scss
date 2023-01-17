@@ -1,1 +1,4 @@
 $test-color: red;
+$color-main: #18a058;
+
+#nprogress .bar { background: $color-main !important;}
