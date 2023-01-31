@@ -1,10 +1,10 @@
 /*
  * @Author: xiaotao2018
  * @Date: 2022-07-06 11:42:36
- * @LastEditTime: 2022-07-12 10:47:09
+ * @LastEditTime: 2023-01-30 10:43:03
  */
 import type { UserConfig, ConfigEnv } from 'vite'
-
+import { loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import path from 'path'
@@ -24,11 +24,11 @@ const Timestamp = new Date().getTime()
 // https://vitejs.dev/config/
 export default ({ command, mode }: ConfigEnv): UserConfig => {
   const isBuild = command === 'build'
-  console.log('isBuild', isBuild)
+  const env = loadEnv(mode, __dirname)
+  console.log('isBuild', isBuild, env.VITE_MODE)
   return {
-    base: './', //打包路径
-    plugins: [
-      vue(),
+    base:  env.VITE_MODE === 'production' ? '/test/' : './', //打包路径
+    plugins: [vue(),
       vueJsx(),
       Unocss({}),
       AutoImport({
@@ -45,12 +45,8 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       }),
       Components({
         dts: 'src/typings/components.d.ts',
-        resolvers: [
-          NaiveUiResolver(),
-          IconsResolver({ customCollections: ['custom'], componentPrefix: 'icon' }),
-        ],
-      }),
-    ],
+        resolvers: [NaiveUiResolver(), IconsResolver({ customCollections: ['custom'], componentPrefix: 'icon' })],
+      }),],
     // 配置别名
     resolve: {
       alias: {
@@ -75,6 +71,11 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           target: 'https://adapi.souxiu.cn/',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/xt-api\//g, ''),
+        },
+        '/yiketianqi-api/': {
+          target: 'https://v0.yiketianqi.com/',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/yiketianqi-api\//g, ''),
         },
       },
     },
