@@ -1,7 +1,7 @@
 /*
  * @Author: xiaotao2018
  * @Date: 2022-07-08 10:48:17
- * @LastEditTime: 2022-07-08 14:21:27
+ * @LastEditTime: 2023-01-17 11:19:50
  */
 interface Window {
   $loadingBar?: import('naive-ui').LoadingBarProviderInst;
@@ -21,3 +21,5 @@ declare namespace Common {
 
 /** 构建时间 */
 declare const PROJECT_BUILD_TIME: string
+
+declare module "@types/three";

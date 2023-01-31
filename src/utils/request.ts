@@ -1,7 +1,7 @@
 /*
  * @Author: xiaotao2018
  * @Date: 2022-07-08 09:28:02
- * @LastEditTime: 2022-07-08 16:44:44
+ * @LastEditTime: 2023-01-30 10:45:08
  */
 import axios from 'axios'
 import { useMessage } from 'naive-ui'
@@ -30,7 +30,7 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
 	function (response) {
-    nMessage?.success('请求成功')
+    // nMessage?.success('请求成功')
 		const dataAxios = response.data
 		return dataAxios
 	},

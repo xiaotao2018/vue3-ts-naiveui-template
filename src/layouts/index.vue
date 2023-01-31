@@ -1,12 +1,12 @@
 <!--
  * @Author: xiaotao2018
  * @Date: 2022-08-18 16:54:24
- * @LastEditTime: 2023-01-17 11:23:24
+ * @LastEditTime: 2023-01-31 14:18:03
 -->
 <template>
   <div class="app-layouts">
 
-    <n-config-provider :theme="theme">
+    <n-config-provider :theme="theme" :locale="myZhCN" :date-locale="myDateZhCN"  :theme-overrides="themeOverrides">
         <n-global-style />
         <div class="app-hearder">
           <router-link to="/login"><img class="app-logo" src="@\assets\logo.png"></router-link>
@@ -19,7 +19,7 @@
               <template #checked>浅色主题</template>
               <template #unchecked>深色主题</template>
             </n-switch>
-  
+
             <span class="ml-4">{{mainStore.name}}，{{helloText}}好</span>
           </div>
         </div>
@@ -61,10 +61,20 @@
 </template>
 
 <script setup lang="ts">
-import { useMainStore } from '@/store'
+import { useMainStore, useConfigStore } from '@/store'
 import { NIcon } from 'naive-ui'
 import { RouterLink, useRouter,RouteLocationRaw } from 'vue-router'
 import { darkTheme, useOsTheme } from 'naive-ui'
+import { zhCN, dateZhCN } from 'naive-ui'
+import { NConfigProvider, GlobalThemeOverrides } from 'naive-ui'
+var themeOverrides: GlobalThemeOverrides = {
+	common: {
+		primaryColor: '#007AFF',
+		primaryColorSuppl: '#007AFF',
+		primaryColorHover: '#2997ff',
+		primaryColorPressed: '#0062d9'
+	}
+}
 // function renderIcon (icon: Component) {
 //   return () => h(NIcon, null, { default: () => h(icon) })
 // }
@@ -74,6 +84,7 @@ import { darkTheme, useOsTheme } from 'naive-ui'
 // }
 const router = useRouter()
 const mainStore = useMainStore()
+const configStore = useConfigStore()
 
 interface ChildObj {
   label: any,
@@ -84,16 +95,16 @@ interface ChildObj {
 var orRouter = router.getRoutes()
 var newRouter = []
 for(var item of orRouter) {
-  if(!item.hidden && item.meta && item.meta.title && !item.meta.isChild) {
-    const tempObj:ChildObj = { label: item.meta.title, key: item.path, children: '' }
-    if(item.children && item.children.length > 1) {
-      tempObj.children = []
-      for(var child of item.children) {
-        tempObj.children.push({ label: child.meta?.title, key: item.path + '/' + child.path })
-      }
-    }
-    newRouter.push(tempObj)
-  }
+	if(!item.hidden && item.meta && item.meta.title && !item.meta.isChild) {
+		const tempObj:ChildObj = { label: item.meta.title, key: item.path, children: '' }
+		if(item.children && item.children.length > 1) {
+			tempObj.children = []
+			for(var child of item.children) {
+				tempObj.children.push({ label: child.meta?.title, key: item.path + '/' + child.path })
+			}
+		}
+		newRouter.push(tempObj)
+	}
 }
 console.log(orRouter, newRouter)
 
@@ -105,11 +116,13 @@ var helloText = ref<String>(myHours === 12 ? '中午' : myHours < 12 && myHours 
 var theme = ref<any>(null)
 var themeGlobal = ref<String>('light')
 const osThemeRef = useOsTheme()
+var myZhCN = ref<any>(zhCN)
+var myDateZhCN = ref<any>(dateZhCN)
 console.log('osThemeRef', osThemeRef, '当前操作系统使用：' + osThemeRef.value)
 
 const activeKey2 = computed(() => { 
-  console.log('activeKey', router.currentRoute.value.fullPath)
-  return router.currentRoute.value.fullPath
+	console.log('activeKey', router.currentRoute.value.fullPath)
+	return router.currentRoute.value.fullPath
 })
 
 const menuOptions: Array<Object> = newRouter
@@ -165,40 +178,43 @@ const menuOptions: Array<Object> = newRouter
 //   }]
 
 function updateMenuKey (key: String, item: {key: RouteLocationRaw}) { // 点击菜单
-  const nowRouter = router.currentRoute.value.fullPath
-  console.log('updateMenuKey', key , item, router, nowRouter)
-  if(nowRouter === key) {
-    console.log('nowRouter === key', key, nowRouter, item)
-    router.push('/redirect' + item.key)
-  }else{
-    router.push(item.key)
-  }
+	const nowRouter = router.currentRoute.value.fullPath
+	console.log('updateMenuKey', key , item, router, nowRouter)
+	if(nowRouter === key) {
+		console.log('nowRouter === key', key, nowRouter, item)
+		router.push('/redirect' + item.key)
+	}else{
+		router.push(item.key)
+	}
 }
 function changeMyTheme (themeBoolean: boolean) { // 更改主题色
-  console.log('changeMyTheme', themeBoolean)
-  const themeStr = themeBoolean ? 'light' : 'dark'
-  themeGlobal.value = themeStr + ''
-  if(themeStr === 'dark') {
-    theme.value = darkTheme
-    document.documentElement.classList.add('dark')
-  }else if(themeStr === 'light') {
-    theme.value = null
-    document.documentElement.classList.remove('dark')
-  }
-  localStorage.setItem('vue3TestTheme',themeStr)
+	console.log('changeMyTheme', themeBoolean)
+	const themeStr = themeBoolean ? 'light' : 'dark'
+	themeGlobal.value = themeStr + ''
+	if(themeStr === 'dark') {
+		theme.value = darkTheme
+		document.documentElement.classList.add('dark')
+	}else if(themeStr === 'light') {
+		theme.value = null
+		document.documentElement.classList.remove('dark')
+	}
+	configStore.changeWebTheme(themeStr)
 }
 
-  onBeforeMount(() => {
-    console.log(mainStore)
-    console.log('---onBeforeMount---')
-  })
+onBeforeMount(() => {
+	console.log(mainStore)
+	console.log('---onBeforeMount---')
+	console.log(configStore)
+	console.log('---onBeforeMount---')
+})
 
-  onMounted(() => {
-    const themeLocal = localStorage.getItem('vue3TestTheme')
-    if(themeLocal && themeLocal === 'dark') {
-      changeMyTheme(false) 
-    }
-  })
+onMounted(() => {
+	const themeLocal = configStore.theme
+	console.log('---onMounted---', mainStore.name, configStore.theme, themeLocal)
+	if(themeLocal && themeLocal === 'dark') {
+		changeMyTheme(false) 
+	}
+})
 
 </script>
 
